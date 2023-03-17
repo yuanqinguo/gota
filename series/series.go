@@ -840,3 +840,18 @@ func (s Series) Slice(j, k int) Series {
 
 	return s.Subset(idxs)
 }
+
+func (s Series) Distinct() int {
+	if s.elements.Len() == 0 || s.Type() != String {
+		return 0
+	}
+	uniqueMap := make(map[string]bool)
+	for i := 0; i < s.Len(); i++ {
+		e := s.elements.Elem(i)
+		if _, ok := uniqueMap[e.String()]; ok {
+			continue
+		}
+		uniqueMap[e.String()] = true
+	}
+	return len(uniqueMap)
+}
