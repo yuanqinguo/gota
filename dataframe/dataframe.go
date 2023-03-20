@@ -480,16 +480,24 @@ func (gps Groups) Aggregation(typs []AggregationType, colnames []string) DataFra
 		// Aggregation
 		for i, c := range colnames {
 			curSeries := df.Col(c)
-			var value float64
+			var value interface{}
 			switch typs[i] {
 			case Aggregation_MAX:
-				value = curSeries.Max()
+				if curSeries.Type() == series.String {
+					value = curSeries.MaxStr()
+				} else {
+					value = curSeries.Max()
+				}
 			case Aggregation_MEAN:
 				value = curSeries.Mean()
 			case Aggregation_MEDIAN:
 				value = curSeries.Median()
 			case Aggregation_MIN:
-				value = curSeries.Min()
+				if curSeries.Type() == series.String {
+					value = curSeries.MinStr()
+				} else {
+					value = curSeries.Min()
+				}
 			case Aggregation_STD:
 				value = curSeries.StdDev()
 			case Aggregation_SUM:
