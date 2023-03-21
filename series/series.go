@@ -842,7 +842,7 @@ func (s Series) Slice(j, k int) Series {
 }
 
 func (s Series) Distinct() int {
-	if s.elements.Len() == 0 || s.Type() != String {
+	if s.elements.Len() == 0 {
 		return 0
 	}
 	uniqueMap := make(map[string]bool)
